@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UsePipes, ValidationPipe } from "@nestjs/common";
 import { Call_Log } from "src/typeorm";
 import { Call_logService } from "./call_log.service";
 import { CreateLogDto } from "./dto/createLog.dto";
@@ -23,9 +23,9 @@ export class Call_logController{
         return this.logService.getLog(id);
     }
 
-    @Patch(':id')
-    updateLog(@Param('id') id:number,@Body() calllog:Call_Log){
-         
+    @Put()
+    updateLog(log){
+        return this.logService.updateLog(log);
     }
 
     @Delete(':id')

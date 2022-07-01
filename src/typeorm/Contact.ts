@@ -10,7 +10,7 @@ export class Contact{
     Name: string;
     
     @Column()
-    Phone: number;
+    Phone: string;
 
     @Column()
     Address: string;

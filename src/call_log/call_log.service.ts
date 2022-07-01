@@ -21,6 +21,10 @@ export class Call_logService {
        return this.logRepository.findBy({contact_id:id})
     }
 
+    updateLog(call): any{
+        return this.logRepository.save(call);
+    }
+
     async removeLog(id: number): Promise<any>{
         await this.logRepository.delete(id);
         return "Log deleted";
