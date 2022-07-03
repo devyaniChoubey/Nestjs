@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Call_logController } from './call_log/call_log.controller';
 import { Call_logModule } from './call_log/call_log.module';
 import { ContactModule } from './contacts/contact.module';
 import entities from './typeorm';

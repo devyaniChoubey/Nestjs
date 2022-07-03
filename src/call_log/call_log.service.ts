@@ -1,33 +1,38 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { IPaginationOptions, paginate, Pagination } from "nestjs-typeorm-paginate";
 import { Call_Log } from "src/typeorm";
 import { Repository } from "typeorm";
 
 @Injectable()
 export class Call_logService {
-    public calllogs: Call_Log[] = [];
-    constructor(@InjectRepository(Call_Log) private logRepository: Repository<Call_Log>){}
+  public calllogs: Call_Log[] = [];
+  constructor(@InjectRepository(Call_Log) private logRepository: Repository<Call_Log>) { }
 
-    createLogs(call): any{
-        const newLog = this.logRepository.create(call);
-        return this.logRepository.save(newLog);
-    }
+  createLogs(call): any {
+    const newLog = this.logRepository.create(call);
+    return this.logRepository.save(newLog);
+  }
 
-    getLogs(): any{
-        return this.logRepository.find();
-    }
+  async paginate(
+    options: IPaginationOptions,
+  ): Promise<Pagination<Call_Log>> {
+    const queryBuilder = this.logRepository.createQueryBuilder('rate_card');
+    return await paginate<Call_Log>(queryBuilder, options);
+  }
 
-    getLog(id:number): any{
-       return this.logRepository.findBy({contact_id:id})
-    }
 
-    updateLog(call): any{
-        return this.logRepository.save(call);
-    }
+  getLog(id: number): any {
+    return this.logRepository.findBy({ contact_id: id })
+  }
 
-    async removeLog(id: number): Promise<any>{
-        await this.logRepository.delete(id);
-        return "Log deleted";
-    }
-    
+  updateLog(call): any {
+    return this.logRepository.save(call);
+  }
+
+  async removeLog(id: number): Promise<any> {
+    await this.logRepository.delete(id);
+    return "Log deleted";
+  }
+
 }
