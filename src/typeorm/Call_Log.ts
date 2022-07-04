@@ -1,7 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-
-
 @Entity()
 export class Call_Log{
     @PrimaryGeneratedColumn()
@@ -10,19 +8,19 @@ export class Call_Log{
     @Column({length: 25})
     Name: string;
     
-    @Column()
+    @Column("bigint")
     Phone_number: number;
 
-    @Column()
+    @Column({default:'incoming'})
     Call_type: string;
 
-    // @Column()
-    // Duration: Float32Array;
-
     @Column({
-        type: 'datetime',
-        nullable:true
-    })
-    time: string;
-    
+        name: 'Timestamp',
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP',
+      })
+    Timestamp: Date;
+
+    @Column("float")
+    Duration: number;
 }
