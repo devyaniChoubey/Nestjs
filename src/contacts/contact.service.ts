@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IPaginationOptions, paginate, Pagination } from "nestjs-typeorm-paginate";
 import { Contact } from "src/typeorm/Contact";
+import { buildQueryBuilder } from "src/utils";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -19,25 +20,17 @@ export class Contact_Service {
   }
 
   async paginate(
-    filter,options: IPaginationOptions,
+    filterBy,options: IPaginationOptions,
   ): Promise<Pagination<Contact>> {
     const queryBuilder = this.contactRepository.createQueryBuilder('contact');
-    
+      
+    if(filterBy){
+      buildQueryBuilder(filterBy, queryBuilder, 'contact.');
+    }
+
     return await paginate<Contact>(queryBuilder, options);
   }
 
-  getContacts(filterBy: string): any {
-    const filterJson = JSON.parse(filterBy)
-    const whereJson = filterJson['where']
-    if (whereJson && whereJson[0]) {
-      return this.contactRepository.find({
-        where: { Phone: whereJson[0].value },
-        order: { Name: "DESC" }
-      });
-    }
-
-    return this.contactRepository.find()
-  }
 
   updateContact(contact): any {
     return this.contactRepository.save(contact);

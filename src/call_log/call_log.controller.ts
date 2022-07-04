@@ -16,10 +16,11 @@ export class Call_logController {
 
     @Get()
     async getLogs(@Request() request,
+        @Query('filter') filter?: string,
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
         @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
     ): Promise<Pagination<Call_Log>> {
-        return await this.logService.paginate({
+        return await this.logService.paginate(filter,{
             limit,
             page,
             route: ''

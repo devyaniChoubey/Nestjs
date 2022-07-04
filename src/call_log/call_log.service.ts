@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IPaginationOptions, paginate, Pagination } from "nestjs-typeorm-paginate";
 import { Call_Log } from "src/typeorm";
+import { buildQueryBuilder } from "src/utils";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -15,9 +16,13 @@ export class Call_logService {
   }
 
   async paginate(
+    filterBy,
     options: IPaginationOptions,
   ): Promise<Pagination<Call_Log>> {
     const queryBuilder = this.logRepository.createQueryBuilder('log');
+    if(filterBy){
+      buildQueryBuilder(filterBy, queryBuilder, 'log.');
+    }
     return await paginate<Call_Log>(queryBuilder, options);
   }
 
