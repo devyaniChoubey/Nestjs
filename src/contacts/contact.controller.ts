@@ -16,10 +16,11 @@ export class ContactsController {
 
     @Get()
     async getContacts(@Request() request,
+        @Query('filter') filter?: string,
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
         @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
     ): Promise<Pagination<Contact>> {
-        return await this.contactService.paginate({
+        return await this.contactService.paginate(filter,{
             limit,
             page,
             route: ''

@@ -17,7 +17,7 @@ export class Call_logService {
   async paginate(
     options: IPaginationOptions,
   ): Promise<Pagination<Call_Log>> {
-    const queryBuilder = this.logRepository.createQueryBuilder('rate_card');
+    const queryBuilder = this.logRepository.createQueryBuilder('log');
     return await paginate<Call_Log>(queryBuilder, options);
   }
 

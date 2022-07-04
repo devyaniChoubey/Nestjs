@@ -19,9 +19,10 @@ export class Contact_Service {
   }
 
   async paginate(
-    options: IPaginationOptions,
+    filter,options: IPaginationOptions,
   ): Promise<Pagination<Contact>> {
-    const queryBuilder = this.contactRepository.createQueryBuilder('rate_card');
+    const queryBuilder = this.contactRepository.createQueryBuilder('contact');
+    
     return await paginate<Contact>(queryBuilder, options);
   }
 
